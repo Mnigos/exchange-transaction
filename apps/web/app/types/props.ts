@@ -11,6 +11,6 @@ export type ErrorProps = Readonly<{
 
 export type PageProps = Readonly<{
   searchParams: {
-    name?: string
+    amount?: string
   }
 }>

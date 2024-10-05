@@ -2,14 +2,14 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-Object.defineProperty(exports, "AppRouter", {
+Object.defineProperty(exports, "TransactionController", {
     enumerable: true,
     get: function() {
-        return AppRouter;
+        return TransactionController;
     }
 });
-const _nestjstrpc = require("nestjs-trpc");
-const _zod = require("zod");
+const _common = require("@nestjs/common");
+const _transactionservice = require("./transaction.service");
 function _ts_decorate(decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -24,33 +24,29 @@ function _ts_param(paramIndex, decorator) {
         decorator(target, key, paramIndex);
     };
 }
-let AppRouter = class AppRouter {
-    greeting(name) {
-        return {
-            message: `Hello ${name}!`
-        };
+let TransactionController = class TransactionController {
+    constructor(transactionService){
+        this.transactionService = transactionService;
+    }
+    create(amount) {
+        return this.transactionService.create(amount);
     }
 };
 _ts_decorate([
-    (0, _nestjstrpc.Query)({
-        input: _zod.z.object({
-            name: _zod.z.string()
-        }),
-        output: _zod.z.object({
-            message: _zod.z.string()
-        })
-    }),
-    _ts_param(0, (0, _nestjstrpc.Input)('name')),
+    (0, _common.Post)(),
+    _ts_param(0, (0, _common.Body)('amount', _common.ParseIntPipe)),
     _ts_metadata("design:type", Function),
     _ts_metadata("design:paramtypes", [
-        String
+        Number
     ]),
     _ts_metadata("design:returntype", void 0)
-], AppRouter.prototype, "greeting", null);
-AppRouter = _ts_decorate([
-    (0, _nestjstrpc.Router)({
-        alias: 'app'
-    })
-], AppRouter);
+], TransactionController.prototype, "create", null);
+TransactionController = _ts_decorate([
+    (0, _common.Controller)('transaction'),
+    _ts_metadata("design:type", Function),
+    _ts_metadata("design:paramtypes", [
+        typeof _transactionservice.TransactionService === "undefined" ? Object : _transactionservice.TransactionService
+    ])
+], TransactionController);
 
-//# sourceMappingURL=app.router.js.map
+//# sourceMappingURL=transaction.controller.js.map
